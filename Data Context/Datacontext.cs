@@ -11,6 +11,7 @@ namespace ProjectInfo.Data_Context
     {
         public DbSet<Dummydata> DummyData { get; set; }
 
+        public DbSet<ProjectInfo.Model.AdminData> AdminData { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -18,6 +19,8 @@ namespace ProjectInfo.Data_Context
                 optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLOCALDB;Database=CMPS411;Trusted_Connection=True;");
             }
         }
+        
+     
 
     }
 
