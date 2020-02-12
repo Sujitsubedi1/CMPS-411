@@ -7,17 +7,18 @@ using ProjectInfo.Model;
 
 namespace ProjectInfo.Data_Context
 {
-    public class Datacontext: DbContext
+    public class Datacontext : DbContext
     {
-        public DbSet<Dummydata> DummyData { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Datacontext(DbContextOptions<Datacontext> options) : base(options)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLOCALDB;Database=CMPS411;Trusted_Connection=True;");
-            }
         }
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.ApplyConfigurationsFromAssembly(typeof(Datacontext).Assembly);
+        //     base.OnModelCreating(modelBuilder);
+        // }
+        public DbSet<ProjectInfo.Model.User> Users { get; set; }
 
     }
 
