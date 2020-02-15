@@ -27,6 +27,12 @@ namespace ProjectInfo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddDbContext<Datacontext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -45,6 +51,12 @@ namespace ProjectInfo
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseCors(
+                options => options.
+                AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                );
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
