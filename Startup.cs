@@ -22,6 +22,7 @@ namespace ProjectInfo
         {
             Configuration = configuration;
         }
+      
 
         public IConfiguration Configuration { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,6 +40,13 @@ namespace ProjectInfo
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,9 +63,11 @@ namespace ProjectInfo
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles();
+            
             app.UseMvc();
-            app.UseCookiePolicy();
+            
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -76,7 +86,8 @@ namespace ProjectInfo
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
               app.UseAuthorization();
-            
+            app.UseCors("CorsPolicy");
+
         }
         private static void MigrateDb(IApplicationBuilder app)
         {

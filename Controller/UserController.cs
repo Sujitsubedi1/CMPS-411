@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ProjectInfo.Data_Context;
 using ProjectInfo.Model;
