@@ -13,12 +13,15 @@ namespace ProjectInfo.Data_Context
         {
         }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.ApplyConfigurationsFromAssembly(typeof(Datacontext).Assembly);
-        //     base.OnModelCreating(modelBuilder);
+
+
+
         // }
-        public DbSet<ProjectInfo.Model.User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Dummydata> DummyData { get; set; }
+
+       public DbSet<AdminData> AdminData {get;set;}
+
 
     }
 

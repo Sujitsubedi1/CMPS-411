@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ProjectInfo.Data_Context;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace ProjectInfo
 {
@@ -29,13 +28,12 @@ namespace ProjectInfo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddControllers();
-            services.AddAuthentication()
-             .AddCookie();
+            services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<Datacontext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("Datacontext")));
+            options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -61,12 +59,18 @@ namespace ProjectInfo
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseCors(
+                options => options.
+                AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                );
 
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
             app.UseStaticFiles();
             
-            app.UseMvc();
+             app.UseMvc();
             
 
             app.UseRouting();
