@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectInfo.Data_Context;
+using ProjectInfo.DTOs;
 using ProjectInfo.Model;
 
 namespace ProjectInfo.Controller
@@ -15,17 +17,23 @@ namespace ProjectInfo.Controller
     public class AdminDatasController : ControllerBase
     {
         private readonly Datacontext _context;
+        private readonly IMapper _mapper;
 
-        public AdminDatasController(Datacontext context)
+        public AdminDatasController(Datacontext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/AdminDatas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdminData>>> GetAdminData()
+        public async Task<ActionResult<IEnumerable<AdminDatadtos>>> GetAdminData()
+
         {
-            return await _context.AdminData.ToListAsync();
+            var config = _context.Set<AdminData>();
+            var getdata =  _mapper.ProjectTo<AdminDatadtos>(config);
+            var itemdtos = await getdata.ToArrayAsync();
+            return itemdtos;
         }
 
         // GET: api/AdminDatas/5
