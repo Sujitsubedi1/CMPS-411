@@ -6,10 +6,13 @@ import * as serviceWorker from "./serviceWorker";
 import { Router } from "react-router-dom";
 import history from "./history";
 import "bootstrap/dist/css/bootstrap.css";
+import AddFile from './Add_StudentInfo/AddFile';
 
 ReactDOM.render(
   <Router history={history}>
     <App />
+        <Route path="/AddFile" component={AddFile} />
+
   </Router>,
   document.getElementById("root")
 );

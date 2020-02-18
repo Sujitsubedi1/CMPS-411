@@ -32,13 +32,13 @@ render(){
                 Admin Mode
                  </h1>  
                  
-                 <Link to ="/AddClass">
-                   <button> Add Class</button>
+                 <Link to ="/Viewclass">
+                   <button> View Class</button>
                    </Link>
                 
                  <br/>
    
-                <Link to = "/ViewStudents">
+                <Link to = "/ViewStudent">
                   <button> View Students</button>
                   </Link>
                

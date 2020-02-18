@@ -10,8 +10,8 @@ using ProjectInfo.Data_Context;
 namespace ProjectInfo.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20200211074104_intial_table_for_users")]
-    partial class intial_table_for_users
+    [Migration("20200215221616_User_login")]
+    partial class User_login
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
