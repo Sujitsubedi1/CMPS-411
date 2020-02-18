@@ -1,0 +1,19 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+<<<<<<< HEAD
+
+  "ConnectionStrings": {
+    "DataContext": "Server=(localdb)\\MSSQLLocalDB;Database=CMPS411;Trusted_Connection=True"
+=======
+  "ConnectionStrings": {
+    "DataContext": "Server = (localdb)\\MSSQLLocalDB;Database=CMPS411;Trusted_Connection=True"
+>>>>>>> 0800f033b2ada8919c17b5a84f22c1841aa1ee37
+  },
+  "AllowedHosts": "*"
+}

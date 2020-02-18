@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin from "react-google-login";
-import history from "../history";
+import { Redirect } from "react-router-dom";
 // or
 // import { GoogleLogin } from "react-google-login";
 
@@ -10,8 +10,7 @@ class login extends Component {
     this.state = {
       redirect: false,
 
-      Name: "",
-      Email: "",
+      meial: "",
       Token: ""
     };
   }
@@ -24,6 +23,11 @@ class login extends Component {
       Email: res.profileObj.email,
       Token: res.accessToken
     };
+    const y = FormData.Email;
+    localStorage.setItem("saveEmail", y);
+    const z = FormData.name;
+    localStorage.setItem("saveName", z);
+    localStorage.setItem("userdata", FormData);
     fetch("https://localhost:44332/api/User/login", {
       method: "POST", // or 'PUT'
       headers: {
@@ -34,28 +38,33 @@ class login extends Component {
       .then(response => response.json())
       .then(response => {
         console.log("Success:", response);
+        this.setState({ redirect: true });
       })
       .catch(error => {
         console.error("Error:", error);
       });
-    history.push("/profile");
   }
 
   render() {
     const responseGoogle = response => {
       console.log(response);
       this.Signup(response);
-      this.profile(response);
     };
+    if (this.state.redirect) {
+      // return <Redirect to={"/profile"}></Redirect>;
+      return <Redirect to={"/logOut"}></Redirect>;
+    }
 
     return (
-      <GoogleLogin
-        clientId="1096692170721-uoa7a1mdservf8n76u6pk6jkvqnt3hjh.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-      />
+      <div>
+        <GoogleLogin
+          clientId="1096692170721-uoa7a1mdservf8n76u6pk6jkvqnt3hjh.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+        />
+      </div>
     );
   }
 }
