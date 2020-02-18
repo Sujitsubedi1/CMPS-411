@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectInfo.Services
+namespace ProjectInfo.Model
 {
     public class Dummydata
     {

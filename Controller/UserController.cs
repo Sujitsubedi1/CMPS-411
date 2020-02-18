@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -58,22 +57,13 @@ namespace ProjectInfo.NewFolder
 
         }
 
+        [HttpGet("{email}")]
+        public ActionResult<User> GetByEmail(string email)
+        {
+            var getUser = _userService.GetUser(email);
 
-        // private readonly Datacontext dataContext;
+            return getUser;
+        }
 
-        // public UserController(Datacontext dataContext)
-        // {
-        //     this.dataContext = dataContext;
-        // }
-
-        // // POST api/User/Login
-        // [HttpPost]
-        // public async Task<ActionResult<User>> Post([FromBody] User user)
-        //     {
-
-        //     dataContext.Add(user);
-        //     await dataContext.SaveChangesAsync();
-        //     return user;
-        //     }
     }
     }

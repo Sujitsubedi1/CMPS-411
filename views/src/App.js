@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import Login from "./login/Login";
-import Profile from "./login/Profile";
+import Routes from "./Routes";
+//import Profile from "./Profile/Profile";
 // import LogOut from "./login/LogOut";
 
 class App extends Component {
@@ -9,7 +10,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Login />
-        <Profile />
+        <Routes />
       </React.Fragment>
     );
   }
