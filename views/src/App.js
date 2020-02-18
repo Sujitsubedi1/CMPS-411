@@ -9,7 +9,6 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Login />
         <Routes />
       </React.Fragment>
     );
