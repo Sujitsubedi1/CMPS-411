@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectInfo.Model;
 
 namespace ProjectInfo.Data_Context
@@ -18,7 +14,7 @@ namespace ProjectInfo.Data_Context
 
         // }
         public DbSet<User> Users { get; set; }
-        public DbSet<Dummydata> DummyData { get; set; }
+
 
        public DbSet<AdminData> AdminData {get;set;}
 
@@ -26,8 +22,8 @@ namespace ProjectInfo.Data_Context
         public DbSet<Project_Info> ProjectInfo { get; set; }
 
 
-
+   
     }
 
 
-}
+    }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ProjectInfo.Data_Context;
+using AutoMapper;
 
 namespace ProjectInfo
 {
@@ -28,7 +29,7 @@ namespace ProjectInfo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<Datacontext>(options =>
