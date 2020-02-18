@@ -5,7 +5,7 @@ import Login from "./login/Login";
 import history from "./history";
 import LogOut from "./login/LogOut";
 import AdminHome from "./Admin/AdminHome";
-import Viewclass from "./Admin/AdminHome";
+import Viewclass from "./Admin/Viewclass";
 import ViewStudent from "./Admin/ViewStudents";
 import AddFile from "./Add_StudentInfo/AddFile";
 
@@ -18,7 +18,7 @@ export default () => (
       <Route path="/profile" exact component={Profile} />
       <Route path="/AddFile" component={AddFile} />
       <Route path="/ViewStudent" component={ViewStudent} />
-      <Route path="/ViewClass" component={Viewclass} />
+      <Route path="/Viewclass" component={Viewclass} />
       <Route path="/AdminHome" component={AdminHome} />
     </div>
   </Router>

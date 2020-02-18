@@ -24,7 +24,7 @@ class AdminHome extends React.Component {
         <div>
           <h1 style={mystyle}>Admin Mode</h1>
 
-          <Link to="/ViewClass">
+          <Link to="/Viewclass">
             <button> View Class</button>
           </Link>
 
