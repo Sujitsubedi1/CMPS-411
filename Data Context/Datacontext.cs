@@ -23,9 +23,11 @@ namespace ProjectInfo.Data_Context
        public DbSet<AdminData> AdminData {get;set;}
 
         public DbSet<ClassInfo> ClassInfos { get; set; }
+        public DbSet<Project_Info> ProjectInfo { get; set; }
+
 
 
     }
 
-    
+
 }

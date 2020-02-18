@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectInfo.Migrations
 {
-    public partial class intial_table_for_users : Migration
+    public partial class User_login : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
