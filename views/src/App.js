@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
-import Login from "./login/Login";
 import Routes from "./Routes";
-//import Profile from "./Profile/Profile";
-// import LogOut from "./login/LogOut";
+import NavBar from "./NavBar/NavBar"
+
 
 class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <NavBar />
         <Routes />
       </React.Fragment>
     );

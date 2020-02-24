@@ -16,19 +16,24 @@ class Profile extends Component {
       .then(response => response.json())
       .then(resData => {
         JSON.stringify(resData);
-        console.log(resData);
         this.setState({ userInfo: resData });
-        console.log(this.state.userInfo);
       });
   }
 
   render() {
     // this.componentDidMount();
+    console.log(this.props);
     return (
-      <div>
-        {this.state.userInfo.map(data => (
-          <div key={data.id}>email: {data.email}</div>
-        ))}
+      <div className="container">
+        <div className="row">
+          <div className="cl w-100">
+            <img src={this.props.location.state.imgSrc} alt="prop"></img>
+            <div key={this.state.userInfo.id}>
+              Welcome {this.state.userInfo.name}
+              <p></p>
+              email: {this.state.userInfo.email}</div>
+          </div>
+        </div>
       </div>
     );
   }
