@@ -91,11 +91,14 @@ class AddFile extends Component {
 
     render() {
         const { Dummy } = this.state;
-        return (      
+        return (
+   
+        
             <React.Fragment>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol md="9" className="mb-r">
+                            <h2 className="text-uppercase my-3">Today:</h2>
                             <div id="events">
                                 {this.state.events.map(event => (
                                     <Event
@@ -195,7 +198,7 @@ class AddFile extends Component {
                             onClick={() => {
                                 this.toggleModal();
                                 this.addEvent();
-                                //this.refreshPage();
+                                this.refreshPage();
                             }}
                         >
                             Add
@@ -220,6 +223,7 @@ class Event extends Component {
                 <React.Fragment>
                     <div className="media mt-1">
                         <div className="media-body mb-3 mb-lg-3">
+                        
                                         <React.Fragment>
                             <div className="media mt-1">
                                 <h3 className="h3-responsive font-weight-bold mr-3">
@@ -249,7 +253,10 @@ class Event extends Component {
                                     </p>
                                 </div>
                             </div>
-                        </React.Fragment>                                        
+                        </React.Fragment>
+                                           
+
+ 
                         </div>
                     </div>
 

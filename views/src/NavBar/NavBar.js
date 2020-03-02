@@ -18,6 +18,7 @@ class NavBar extends Component {
   handleLogout() {
     this.setState({ loggedIn: false });
     sessionStorage.clear();
+    localStorage.clear();
     history.push("/");
   }
 
@@ -25,7 +26,8 @@ class NavBar extends Component {
     let FormData = {
       Name: res.profileObj.name,
       Email: res.profileObj.email,
-      Token: res.accessToken
+      Token: res.accessToken,
+      ImageUrl: res.profileObj.imageUrl
     };
     const userEmail = FormData.Email;
 
@@ -43,7 +45,11 @@ class NavBar extends Component {
       .then(response => response.json())
       .then(response => {
         this.setState({ loggedIn: true, imgSrc: res.profileObj.imageUrl });
+        if(response.email== 'teame8848@gmail.com'){
+          history.push("/AdminHome")
+        }else{
         history.push("/profile", { imgSrc: this.state.imgSrc });
+        }
       })
       .catch(error => {
         console.error("Error:", error);
