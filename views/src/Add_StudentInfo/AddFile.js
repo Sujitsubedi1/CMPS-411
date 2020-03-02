@@ -8,7 +8,7 @@ import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class AddFile extends Component {
-   
+
     constructor(props) {
         super(props);
 
@@ -21,11 +21,11 @@ class AddFile extends Component {
             pNames: "",
             tused: "",
             gRepo: "",
-            tmembers: "",
-          
-            
+            tmembers: ""
+
+
         };
-       
+
     }
     componentDidMount() {
         axios.get('https://localhost:44332/api/Add_StudentInfo')
@@ -36,7 +36,7 @@ class AddFile extends Component {
             })
             .catch(Error)
     }
-  
+
     addEvent = () => {
         var newArray = [...this.state.events];
         newArray.push({
@@ -46,16 +46,18 @@ class AddFile extends Component {
             tused: this.state.tused,
             gRepo: this.state.gRepo,
             tmembers: this.state.tmembers,
-            description: this.state.description
+            description: this.state.description,
+
         });
         this.setState({ events: newArray });
         this.setState({
-            gName:'',
+            gName: '',
             pNames: '',
             tused: '',
             gRepo: '',
             tmembers: '',
-            description: ''
+            description: '',
+
         });
         axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
             .then(response => {
@@ -64,15 +66,15 @@ class AddFile extends Component {
             .catch(error => {
                 console.log(error)
             })
-        
-       
+
+
     };
 
     refreshPage() {
-    window.location.reload();
+        window.location.reload();
     }
 
-    
+
 
     handleInputChange = inputName => value => {
         const nextValue = value;
@@ -81,7 +83,7 @@ class AddFile extends Component {
         });
     };
 
-  
+
 
     toggleModal = () => {
         this.setState({
@@ -91,9 +93,11 @@ class AddFile extends Component {
 
     render() {
         const { Dummy } = this.state;
+        console.log(this.props.userId);
+
         return (
-   
-        
+
+
             <React.Fragment>
                 <MDBContainer>
                     <MDBRow>
@@ -153,7 +157,7 @@ class AddFile extends Component {
                                 group
                                 type="text"
                                 getValue={this.handleInputChange("pNames")}
-                            />                            
+                            />
                             <MDBInput
                                 name="Team Members"
                                 label="Team Members"
@@ -189,7 +193,7 @@ class AddFile extends Component {
                                 getValue={this.handleInputChange("description")}
                             />
 
-                          
+
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className="justify-content-center">
@@ -207,11 +211,11 @@ class AddFile extends Component {
                 </MDBModal>
 
 
-                </React.Fragment>
-                
+            </React.Fragment>
+
 
         );
-        
+
     }
 }
 
@@ -220,11 +224,11 @@ class Event extends Component {
 
     render() {
         return (
-                <React.Fragment>
-                    <div className="media mt-1">
-                        <div className="media-body mb-3 mb-lg-3">
-                        
-                                        <React.Fragment>
+            <React.Fragment>
+                <div className="media mt-1">
+                    <div className="media-body mb-3 mb-lg-3">
+
+                        <React.Fragment>
                             <div className="media mt-1">
                                 <h3 className="h3-responsive font-weight-bold mr-3">
                                     {this.props.gName}
@@ -254,17 +258,17 @@ class Event extends Component {
                                 </div>
                             </div>
                         </React.Fragment>
-                                           
 
- 
-                        </div>
+
+
                     </div>
+                </div>
 
-                </React.Fragment>
-           
-            );
+            </React.Fragment>
 
-        }
-            
+        );
+
+    }
+
 }
 export default withRouter(AddFile);

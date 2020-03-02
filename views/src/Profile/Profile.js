@@ -19,6 +19,7 @@ class Profile extends Component {
       .then(resData => {
         JSON.stringify(resData);
         this.setState({ userInfo: resData });
+
       });
   }
 
@@ -35,9 +36,10 @@ class Profile extends Component {
 
               <p></p>
               <h3>email: {this.state.userInfo.email}</h3></div>
+            {/* userID: {this.state.userInfo.id} */}
           </div>
         </section>
-        <AddFile/>
+        <AddFile userId={this.state.userInfo.id} />
       </div>
     );
   }
