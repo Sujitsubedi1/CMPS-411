@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import BackgroundImage from "../Carousel/BackgroundImage";
 
 class Profile extends Component {
   constructor(props) {
@@ -21,19 +22,21 @@ class Profile extends Component {
   }
 
   render() {
-    // this.componentDidMount();
-    console.log(this.props);
+
     return (
-      <div className="container">
-        <div className="row">
-          <div className="cl w-100">
-            <img src={this.props.location.state.imgSrc} alt="prop"></img>
+      <div>
+        <BackgroundImage></BackgroundImage>
+        <section className="py-5">
+          <div className="container">
+            <h1 className="display-4"> <img src={this.state.userInfo.imageUrl} alt="prop"></img> </h1>
             <div key={this.state.userInfo.id}>
-              Welcome {this.state.userInfo.name}
+              <h1>   Welcome {this.state.userInfo.name} </h1>
+
               <p></p>
-              email: {this.state.userInfo.email}</div>
+              <h3>email: {this.state.userInfo.email}</h3></div>
           </div>
-        </div>
+        </section>
+
       </div>
     );
   }

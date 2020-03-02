@@ -9,10 +9,12 @@ import AddFile from "./Add_StudentInfo/AddFile";
 import Studentsdata from "./Admin/Studentsdata";
 import Viewcourse from "./Admin/Viewcourse";
 
+import home from "./Home/home";
 
 export default () => (
   <Router history={history}>
     <div>
+      <Route path="/" exact component={home} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/AddFile" component={AddFile} />
       <Route path="/ViewStudent" component={ViewStudent} />
