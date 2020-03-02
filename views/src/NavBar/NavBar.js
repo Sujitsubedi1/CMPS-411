@@ -18,6 +18,7 @@ class NavBar extends Component {
   handleLogout() {
     this.setState({ loggedIn: false });
     sessionStorage.clear();
+    localStorage.clear();
     history.push("/");
   }
 
@@ -25,7 +26,8 @@ class NavBar extends Component {
     let FormData = {
       Name: res.profileObj.name,
       Email: res.profileObj.email,
-      Token: res.accessToken
+      Token: res.accessToken,
+      ImageUrl: res.profileObj.imageUrl
     };
     const userEmail = FormData.Email;
 

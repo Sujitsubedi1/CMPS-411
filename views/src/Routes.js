@@ -6,10 +6,12 @@ import AdminHome from "./Admin/AdminHome";
 import Viewclass from "./Admin/Viewclass";
 import ViewStudent from "./Admin/ViewStudents";
 import AddFile from "./Add_StudentInfo/AddFile";
+import home from "./Home/home";
 
 export default () => (
   <Router history={history}>
     <div>
+      <Route path="/" exact component={home} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/AddFile" component={AddFile} />
       <Route path="/ViewStudent" component={ViewStudent} />
