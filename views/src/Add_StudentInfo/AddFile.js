@@ -28,9 +28,9 @@ class AddFile extends Component {
         });
         this.setState({ events: newArray });
         this.setState({
-            time: "",
-            title: "",
-            location: "",
+            name: "",
+            GithubRepository: "",
+            TeamMembers: "",
             description: ""
         });
     };
@@ -61,10 +61,11 @@ class AddFile extends Component {
                                     <Event
                                         key={event.id}
                                         id={event.id}
-                                        time={event.time}
-                                        title={event.title}
-                                        location={event.location}
+                                        name={event.name}
+                                        GithubRepository={event.GithubRepository}
+                                        TeamMembers={event.TeamMembers}
                                         description={event.description}
+                                        TechnologiesUsed={event.TechnologiesUsed}
                                         onDelete={this.handleDelete}
                                     />
                                 ))}
@@ -108,7 +109,7 @@ class AddFile extends Component {
                                 hint="Team Members"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Team Members")}
+                                getValue={this.handleInputChange("TeamMembers")}
                             />
                             <MDBInput
                                 name="Technologies Used"
@@ -117,7 +118,7 @@ class AddFile extends Component {
                                 hint="Technologies Used"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Technologies Used")}
+                                getValue={this.handleInputChange("TechnologiesUsed")}
                             />
                             <MDBInput
                                 name="Github Repository"
@@ -125,7 +126,7 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Github Repository")}
+                                getValue={this.handleInputChange("GithubRepository")}
                             />
                             <MDBInput
                                 name="Description"
@@ -159,16 +160,16 @@ class Event extends Component {
             <React.Fragment>
                 <div className="media mt-1">
                     <h3 className="h3-responsive font-weight-bold mr-3">
-                        {this.props.time}
+                        {this.props.name}
                     </h3>
                     <div className="media-body mb-3 mb-lg-3">
 
-                        <h6 className="mt-0 font-weight-bold">{this.props.title} </h6>{" "}
+                        <h6 className="mt-0 font-weight-bold">{this.props.TeamMembers} </h6>{" "}
                         <hr className="hr-bold my-2" />
                         {this.props.location && (
                             <React.Fragment>
                                 <p className="font-smaller mb-0">
-                                    <MDBIcon icon="location-arrow" /> {this.props.location}
+                                    <MDBIcon icon="location-arrow" /> {this.props.GithubRepository}
                                 </p>
                             </React.Fragment>
                         )}

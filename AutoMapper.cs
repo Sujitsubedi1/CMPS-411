@@ -21,7 +21,16 @@ namespace ProjectInfo
                         .ForMember(dest => dest.Semester, src => src.MapFrom(src => src.Classinfos.Semester))
                           .ForMember(dest => dest.ClassInfoID, src => src.MapFrom(src => src.Classinfos.id));
 
-
+            CreateMap<Project_Info, Project_InfoDTO>()
+            .ForMember(dest => dest.ID, src => src.MapFrom(src => src.ID))
+                 .ForMember(dest => dest.ProjectName, src => src.MapFrom(src => src.P_Names))
+                      .ForMember(dest => dest.Technologyused, src => src.MapFrom(src => src.T_used))
+                           .ForMember(dest => dest.GithubRepo, src => src.MapFrom(src => src.G_Repo))
+                                .ForMember(dest => dest.MemberNames, src => src.MapFrom(src => src.members))
+                                     .ForMember(dest => dest.ClassName, src => src.MapFrom(src => src.classinfo.ClassID))
+                                          .ForMember(dest => dest.Semester, src => src.MapFrom(src => src.classinfo.Semester))
+                                               .ForMember(dest => dest.Year, src => src.MapFrom(src => src.classinfo.Year))
+                                                    .ForMember(dest => dest.ClassInfoID, src => src.MapFrom(src => src.classinfo.id));
 
 
         }
