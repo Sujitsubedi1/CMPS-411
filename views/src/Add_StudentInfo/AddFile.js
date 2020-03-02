@@ -5,52 +5,95 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBBtn, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBadge, MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { withRouter, Link } from 'react-router-dom';
+import axios from 'axios';
 
 class AddFile extends Component {
+   
     constructor(props) {
         super(props);
+
         this.state = {
             modal: false,
             events: [
-                {
-                }
-            ]
+                this.componentDidMount
+            ],
+            gName: "",
+            pNames: "",
+            tused: "",
+            gRepo: "",
+            tmembers: "",
+          
+            
         };
+       
     }
+    componentDidMount() {
+        axios.get('https://localhost:44332/api/Add_StudentInfo')
+
+            .then(response => {
+                console.log(response)
+                this.setState({ events: response.data })
+            })
+            .catch(Error)
+    }
+  
     addEvent = () => {
         var newArray = [...this.state.events];
         newArray.push({
             id: newArray.length ? newArray[newArray.length - 1].id + 1 : 1,
-            time: this.state.time,
-            title: this.state.title,
-            location: this.state.location,
+            gName: this.state.gName,
+            pNames: this.state.pNames,
+            tused: this.state.tused,
+            gRepo: this.state.gRepo,
+            tmembers: this.state.tmembers,
             description: this.state.description
         });
         this.setState({ events: newArray });
         this.setState({
-            time: "",
-            title: "",
-            location: "",
-            description: ""
+            gName:'',
+            pNames: '',
+            tused: '',
+            gRepo: '',
+            tmembers: '',
+            description: ''
         });
+        axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        
+       
     };
+
+    refreshPage() {
+    window.location.reload();
+    }
+
+    
+
     handleInputChange = inputName => value => {
         const nextValue = value;
         this.setState({
             [inputName]: nextValue
         });
     };
-    handleDelete = eventId => {
-        const events = this.state.events.filter(e => e.id !== eventId);
-        this.setState({ events });
-    };
+
+  
+
     toggleModal = () => {
         this.setState({
             modal: !this.state.modal
         });
     };
+
     render() {
+        const { Dummy } = this.state;
         return (
+   
+        
             <React.Fragment>
                 <MDBContainer>
                     <MDBRow>
@@ -61,11 +104,12 @@ class AddFile extends Component {
                                     <Event
                                         key={event.id}
                                         id={event.id}
-                                        time={event.time}
-                                        title={event.title}
-                                        location={event.location}
+                                        gName={event.gName}
+                                        pNames={event.pNames}
+                                        tused={event.tused}
+                                        gRepo={event.gRepo}
+                                        tmembers={event.tmembers}
                                         description={event.description}
-                                        onDelete={this.handleDelete}
                                     />
                                 ))}
                             </div>
@@ -88,10 +132,19 @@ class AddFile extends Component {
                         titleClass="w-100 font-weight-bold"
                         toggle={this.toggleModal}
                     >
-                        Add Profile
+                        Add Information
             </MDBModalHeader>
                     <MDBModalBody>
                         <form className="mx-3 grey-text">
+                            <MDBInput
+                                name="gname"
+                                label="Team Name"
+                                icon="user"
+                                hint="Team Name"
+                                group
+                                type="text"
+                                getValue={this.handleInputChange("gName")}
+                            />
                             <MDBInput
                                 name="name"
                                 label="Project Name"
@@ -99,8 +152,8 @@ class AddFile extends Component {
                                 hint="Project Name"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("name")}
-                            />
+                                getValue={this.handleInputChange("pNames")}
+                            />                            
                             <MDBInput
                                 name="Team Members"
                                 label="Team Members"
@@ -108,7 +161,7 @@ class AddFile extends Component {
                                 hint="Team Members"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Team Members")}
+                                getValue={this.handleInputChange("tmembers")}
                             />
                             <MDBInput
                                 name="Technologies Used"
@@ -117,7 +170,7 @@ class AddFile extends Component {
                                 hint="Technologies Used"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Technologies Used")}
+                                getValue={this.handleInputChange("tused")}
                             />
                             <MDBInput
                                 name="Github Repository"
@@ -125,16 +178,18 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Github Repository")}
+                                getValue={this.handleInputChange("gRepo")}
                             />
                             <MDBInput
-                                name="Description"
-                                label="Description (optional)"
-                                icon="sticky-note"
+                                name="description"
+                                label="Project Description"
+                                icon="map"
                                 group
-                                type="textarea"
+                                type="text"
                                 getValue={this.handleInputChange("description")}
                             />
+
+                          
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className="justify-content-center">
@@ -143,44 +198,73 @@ class AddFile extends Component {
                             onClick={() => {
                                 this.toggleModal();
                                 this.addEvent();
+                                this.refreshPage();
                             }}
                         >
                             Add
             </MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
-            </React.Fragment>
+
+
+                </React.Fragment>
+                
+
         );
+        
     }
 }
+
 class Event extends Component {
+
+
     render() {
         return (
-            <React.Fragment>
-                <div className="media mt-1">
-                    <h3 className="h3-responsive font-weight-bold mr-3">
-                        {this.props.time}
-                    </h3>
-                    <div className="media-body mb-3 mb-lg-3">
+                <React.Fragment>
+                    <div className="media mt-1">
+                        <div className="media-body mb-3 mb-lg-3">
+                        
+                                        <React.Fragment>
+                            <div className="media mt-1">
+                                <h3 className="h3-responsive font-weight-bold mr-3">
+                                    {this.props.gName}
+                                </h3>
 
-                        <h6 className="mt-0 font-weight-bold">{this.props.title} </h6>{" "}
-                        <hr className="hr-bold my-2" />
-                        {this.props.location && (
-                            <React.Fragment>
-                                <p className="font-smaller mb-0">
-                                    <MDBIcon icon="location-arrow" /> {this.props.location}
-                                </p>
-                            </React.Fragment>
-                        )}
+                                <div className="media-body mb-3 mb-lg-3">
+
+                                    <p className="font-smaller mb-0" >
+
+                                        <MDBIcon icon="location-arrow" /> {this.props.pNames}
+                                    </p>
+                                    <p className="font-smaller mb-0" >
+
+                                        <MDBIcon icon="location-arrow" /> {this.props.tmembers}
+                                    </p>
+
+                                    <p className="font-smaller mb-0">
+                                        <MDBIcon icon="location-arrow" />{this.props.tused}
+                                    </p>
+
+                                    <p className="font-smaller mb-0">
+                                        <MDBIcon icon="location-arrow" />{this.props.gRepo}
+                                    </p>
+                                    <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
+                                        {this.props.description}
+                                    </p>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                                           
+
+ 
+                        </div>
                     </div>
-                </div>
-                {this.props.description && (
-                    <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
-                        {this.props.description}
-                    </p>
-                )}
-            </React.Fragment>
-        );
-    }
+
+                </React.Fragment>
+           
+            );
+
+        }
+            
 }
 export default withRouter(AddFile);

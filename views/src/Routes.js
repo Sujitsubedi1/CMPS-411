@@ -6,6 +6,9 @@ import AdminHome from "./Admin/AdminHome";
 import Viewclass from "./Admin/Viewclass";
 import ViewStudent from "./Admin/ViewStudents";
 import AddFile from "./Add_StudentInfo/AddFile";
+import Studentsdata from "./Admin/Studentsdata";
+
+
 import home from "./Home/home";
 
 export default () => (
@@ -17,6 +20,9 @@ export default () => (
       <Route path="/ViewStudent" component={ViewStudent} />
       <Route path="/Viewclass" component={Viewclass} />
       <Route path="/AdminHome" component={AdminHome} />
+      <Route path ="/Studentsdata" component ={Studentsdata}/>
+    
+
     </div>
   </Router>
 );

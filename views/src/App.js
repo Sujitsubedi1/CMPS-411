@@ -11,6 +11,8 @@ class App extends Component {
         <NavBar />
         <Routes />
       </React.Fragment>
+     
+      
     );
   }
 }
