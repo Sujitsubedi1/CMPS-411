@@ -46,6 +46,10 @@ class AdminHome extends React.Component {
     return (
     
        <div>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
          {this.state.getid ? (
            <Studentsdata ids = {(this.state.getid).toString()}/>
          ):(

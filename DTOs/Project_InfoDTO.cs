@@ -14,6 +14,8 @@ namespace ProjectInfo.DTOs
         public string GithubRepo { get; set; }
         public string MemberNames { get; set; }
 
+        public string Description { get; set; }
+
         public string ClassName { get; set; }
         public string Semester { get; set; }
         public string Year { get; set; }

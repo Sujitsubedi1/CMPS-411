@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BackgroundImage from "../Carousel/BackgroundImage";
+import AddFile from "../Add_StudentInfo/AddFile";
 
 class Profile extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Profile extends Component {
               <h3>email: {this.state.userInfo.email}</h3></div>
           </div>
         </section>
-
+        <AddFile/>
       </div>
     );
   }

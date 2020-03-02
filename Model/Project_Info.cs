@@ -14,6 +14,8 @@ namespace ProjectInfo.Model
         public string G_Repo { get; set; }
         public string members { get; set; }
 
+        public string Description { get; set; }
+
         public ClassInfo classinfo { get; set; }
 
 

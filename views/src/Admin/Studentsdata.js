@@ -75,9 +75,10 @@ export default class Studentsdata extends Component {
         accessor: 'memberNames'
       },
       {
-      Header:'class ID',
-      accessor: 'className'
-      }
+      Header:'Description',
+      accessor: 'description'
+      },
+   
 ]
 
   

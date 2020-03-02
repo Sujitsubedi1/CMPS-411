@@ -45,7 +45,11 @@ class NavBar extends Component {
       .then(response => response.json())
       .then(response => {
         this.setState({ loggedIn: true, imgSrc: res.profileObj.imageUrl });
+        if(response.email== 'teame8848@gmail.com'){
+          history.push("/AdminHome")
+        }else{
         history.push("/profile", { imgSrc: this.state.imgSrc });
+        }
       })
       .catch(error => {
         console.error("Error:", error);

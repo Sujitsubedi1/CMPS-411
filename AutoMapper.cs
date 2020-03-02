@@ -27,6 +27,7 @@ namespace ProjectInfo
                       .ForMember(dest => dest.Technologyused, src => src.MapFrom(src => src.T_used))
                            .ForMember(dest => dest.GithubRepo, src => src.MapFrom(src => src.G_Repo))
                                 .ForMember(dest => dest.MemberNames, src => src.MapFrom(src => src.members))
+                                .ForMember(dest => dest.Description, src=> src.MapFrom(src => src.Description))
                                      .ForMember(dest => dest.ClassName, src => src.MapFrom(src => src.classinfo.ClassID))
                                           .ForMember(dest => dest.Semester, src => src.MapFrom(src => src.classinfo.Semester))
                                                .ForMember(dest => dest.Year, src => src.MapFrom(src => src.classinfo.Year))
