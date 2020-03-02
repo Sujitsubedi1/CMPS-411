@@ -26,6 +26,9 @@ namespace ProjectInfo.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Classinfosid")
+                        .HasColumnType("int");
+
                     b.Property<string>("Framework")
                         .HasColumnType("nvarchar(max)");
 
@@ -33,6 +36,8 @@ namespace ProjectInfo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("Classinfosid");
 
                     b.ToTable("AdminData");
                 });
@@ -58,19 +63,28 @@ namespace ProjectInfo.Migrations
                     b.ToTable("ClassInfos");
                 });
 
-            modelBuilder.Entity("ProjectInfo.Model.Dummydata", b =>
+            modelBuilder.Entity("ProjectInfo.Model.Project_Info", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("name")
+                    b.Property<string>("G_Repo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("P_Names")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("DummyData");
+                    b.Property<string>("T_used")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("members")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProjectInfo");
                 });
 
             modelBuilder.Entity("ProjectInfo.Model.User", b =>
@@ -81,6 +95,9 @@ namespace ProjectInfo.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -95,6 +112,13 @@ namespace ProjectInfo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ProjectInfo.Model.AdminData", b =>
+                {
+                    b.HasOne("ProjectInfo.Model.ClassInfo", "Classinfos")
+                        .WithMany()
+                        .HasForeignKey("Classinfosid");
                 });
 #pragma warning restore 612, 618
         }
