@@ -29,18 +29,7 @@ namespace ProjectInfo.Controller
         }
 
         // GET: api/Add_StudentInfo/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Add_StudentInfo>> GetAdd_StudentInfo(int id)
-        {
-            var add_StudentInfo = await _context.Add_StudentInfo.FindAsync(id);
-
-            if (add_StudentInfo == null)
-            {
-                return NotFound();
-            }
-
-            return add_StudentInfo;
-        }
+     
 
         // POST: api/Add_StudentInfo
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -73,6 +62,13 @@ namespace ProjectInfo.Controller
         private bool Add_StudentInfoExists(int id)
         {
             return _context.Add_StudentInfo.Any(e => e.ID == id);
+        }
+
+        [HttpGet("{userId}")]
+        public ActionResult<Add_StudentInfo> GetByUserId(int userId)
+        {
+            var userValue = _context.Add_StudentInfo.First(e => e.User.Id == userId);
+            return userValue;
         }
     }
 }
