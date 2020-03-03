@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectInfo.Data_Context;
+using ProjectInfo.DTOs;
 using ProjectInfo.Model;
 
 namespace ProjectInfo.Controller
@@ -15,17 +17,22 @@ namespace ProjectInfo.Controller
     public class Add_StudentInfoController : ControllerBase
     {
         private readonly Datacontext _context;
+        private readonly IMapper _mapper;
 
-        public Add_StudentInfoController(Datacontext context)
+        public Add_StudentInfoController(Datacontext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Add_StudentInfo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Add_StudentInfo>>> GetAdd_StudentInfo()
+        public async Task<ActionResult<IEnumerable<Add_StudentInfoDTO>>> GetAdd_StudentInfo()
         {
-            return await _context.Add_StudentInfo.ToListAsync();
+            var config = _context.Set<Add_StudentInfo>();
+            var getdata = _mapper.ProjectTo<Add_StudentInfoDTO>(config);
+            var itemdtos = await getdata.ToArrayAsync();
+            return itemdtos;
         }
 
         // GET: api/Add_StudentInfo/5
