@@ -33,7 +33,6 @@ class NavBar extends Component {
 
 
     localStorage.setItem("saveEmail", userEmail);
-    sessionStorage.setItem("userdata", FormData);
 
     fetch("https://localhost:44332/api/User/login", {
       method: "POST",
@@ -44,12 +43,15 @@ class NavBar extends Component {
     })
       .then(response => response.json())
       .then(response => {
+        sessionStorage.setItem("userData", JSON.stringify(response));
+
         this.setState({ loggedIn: true, imgSrc: res.profileObj.imageUrl });
-        if(response.email== 'teame8848@gmail.com'){
+        if (response.email == 'teame8848@gmail.com') {
           history.push("/AdminHome")
-        }else{
-        history.push("/profile", { imgSrc: this.state.imgSrc });
+        } else {
+          history.push("/profile", { imgSrc: this.state.imgSrc });
         }
+
       })
       .catch(error => {
         console.error("Error:", error);
@@ -57,7 +59,7 @@ class NavBar extends Component {
   }
 
   componentWillMount() {
-    if (sessionStorage.getItem('userdata')) {
+    if (sessionStorage.getItem('userData')) {
       this.setState({ loggedIn: true });
     }
     else {

@@ -11,69 +11,66 @@ class AddFile extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             modal: false,
             events: [
-                this.componentDidMount
+                // this.componentDidMount
             ],
             gName: "",
             pNames: "",
             tused: "",
             gRepo: "",
-            tmembers: ""
-
-
+            tmembers: "",
+            events: [],
         };
-
-    }
-    componentDidMount() {
-        axios.get('https://localhost:44332/api/Add_StudentInfo')
-
-            .then(response => {
-                console.log(response)
-                this.setState({ events: response.data })
-            })
-            .catch(Error)
+        var userData = JSON.parse(sessionStorage.getItem("userData"));
+        this.getUserEvents(userData.id);
     }
 
-    addEvent = () => {
-        var newArray = [...this.state.events];
-        newArray.push({
-            id: newArray.length ? newArray[newArray.length - 1].id + 1 : 1,
+    getUserEvents(id) {
+        fetch("https://localhost:44332/api/Add_StudentInfo/" + id)
+            .then(response => response.json())
+            .then(resData => {
+                JSON.stringify(resData);
+                this.setState({ events: resData });
+            });
+    }
+
+    addEvent(userId) {
+        let FormData = {
             gName: this.state.gName,
             pNames: this.state.pNames,
             tused: this.state.tused,
             gRepo: this.state.gRepo,
             tmembers: this.state.tmembers,
             description: this.state.description,
+            UserId: userId
+        };
 
-        });
-        this.setState({ events: newArray });
-        this.setState({
-            gName: '',
-            pNames: '',
-            tused: '',
-            gRepo: '',
-            tmembers: '',
-            description: '',
-
-        });
-        axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
+        fetch("https://localhost:44332/api/Add_StudentInfo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(FormData)
+        })
+            .then(response => response.json())
             .then(response => {
-                console.log(response)
+                console.log("Success:", response);
+                this.setState({ modal: true })
             })
             .catch(error => {
-                console.log(error)
-            })
-
-
-    };
+                console.error("Error:", error);
+            });
+    }
 
     refreshPage() {
         window.location.reload();
     }
 
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
 
     handleInputChange = inputName => value => {
@@ -83,8 +80,6 @@ class AddFile extends Component {
         });
     };
 
-
-
     toggleModal = () => {
         this.setState({
             modal: !this.state.modal
@@ -92,42 +87,26 @@ class AddFile extends Component {
     };
 
     render() {
-        const { Dummy } = this.state;
-        console.log(this.props.userId);
+        const userId = this.props.userId;
 
+        const { gName, pNames, tused, tmembers, gRepo, description } = this.state;
         return (
-
-
             <React.Fragment>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol md="9" className="mb-r">
                             <h2 className="text-uppercase my-3">Today:</h2>
                             <div id="events">
-                                {this.state.events.map(event => (
-                                    <Event
-                                        key={event.id}
-                                        id={event.id}
-                                        gName={event.gName}
-                                        pNames={event.pNames}
-                                        tused={event.tused}
-                                        gRepo={event.gRepo}
-                                        tmembers={event.tmembers}
-                                        description={event.description}
-                                    />
-                                ))}
+                                <Event events={this.state.events} />
                             </div>
                             <MDBRow className="mb-4">
                                 <MDBCol xl="3" md="6" className="mx-auto text-center">
-
                                     <MDBBtn color="info" rounded onClick={this.toggleModal}>
                                         Add Info
                                 </MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </MDBCol>
-
-
                     </MDBRow>
                 </MDBContainer>
                 <MDBModal isOpen={this.state.modal} toggle={this.toggleModal}>
@@ -147,6 +126,8 @@ class AddFile extends Component {
                                 hint="Team Name"
                                 group
                                 type="text"
+                                value={gName}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("gName")}
                             />
                             <MDBInput
@@ -156,6 +137,8 @@ class AddFile extends Component {
                                 hint="Project Name"
                                 group
                                 type="text"
+                                value={pNames}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("pNames")}
                             />
                             <MDBInput
@@ -165,6 +148,8 @@ class AddFile extends Component {
                                 hint="Team Members"
                                 group
                                 type="text"
+                                value={tmembers}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("tmembers")}
                             />
                             <MDBInput
@@ -174,6 +159,8 @@ class AddFile extends Component {
                                 hint="Technologies Used"
                                 group
                                 type="text"
+                                value={tused}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("tused")}
                             />
                             <MDBInput
@@ -182,6 +169,8 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
+                                value={gRepo}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("gRepo")}
                             />
                             <MDBInput
@@ -190,6 +179,8 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
+                                value={description}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("description")}
                             />
 
@@ -201,7 +192,7 @@ class AddFile extends Component {
                             color="info"
                             onClick={() => {
                                 this.toggleModal();
-                                this.addEvent();
+                                this.addEvent(userId);
                                 this.refreshPage();
                             }}
                         >
@@ -210,62 +201,56 @@ class AddFile extends Component {
                     </MDBModalFooter>
                 </MDBModal>
 
-
-            </React.Fragment>
-
-
+            </React.Fragment >
         );
 
     }
 }
 
 class Event extends Component {
-
-
     render() {
+        console.log(this.props.events);
+
         return (
             <React.Fragment>
                 <div className="media mt-1">
                     <div className="media-body mb-3 mb-lg-3">
 
-                        <React.Fragment>
-                            <div className="media mt-1">
-                                <h3 className="h3-responsive font-weight-bold mr-3">
-                                    {this.props.gName}
-                                </h3>
+                        {this.props.events.map((event, key) => {
+                            return (
+                                <React.Fragment key={event.id}>
+                                    <div className="media mt-1">
+                                        <h3 className="h3-responsive font-weight-bold mr-3">
+                                            {event.gName}
+                                        </h3>
 
-                                <div className="media-body mb-3 mb-lg-3">
+                                        <div className="media-body mb-3 mb-lg-3">
+                                            <p className="font-smaller mb-0" >
 
-                                    <p className="font-smaller mb-0" >
+                                                <MDBIcon icon="location-arrow" /> {event.pNames}
+                                            </p>
+                                            <p className="font-smaller mb-0" >
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.pNames}
-                                    </p>
-                                    <p className="font-smaller mb-0" >
+                                                <MDBIcon icon="location-arrow" /> {event.tmembers}
+                                            </p>
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.tmembers}
-                                    </p>
+                                            <p className="font-smaller mb-0">
+                                                <MDBIcon icon="location-arrow" />{event.tused}
+                                            </p>
 
-                                    <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.tused}
-                                    </p>
-
-                                    <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.gRepo}
-                                    </p>
-                                    <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
-                                        {this.props.description}
-                                    </p>
-                                </div>
-                            </div>
-                        </React.Fragment>
-
-
-
+                                            <p className="font-smaller mb-0">
+                                                <MDBIcon icon="location-arrow" />{event.gRepo}
+                                            </p>
+                                            <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
+                                                {event.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </React.Fragment>)
+                        })}
                     </div>
                 </div>
-
             </React.Fragment>
-
         );
 
     }

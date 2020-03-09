@@ -9,21 +9,24 @@ class Profile extends Component {
       email: "",
       name: "",
       isloggedIn: false,
-      userInfo: []
+      userInfo: JSON.parse(sessionStorage.getItem("userData"))
     };
-  }
-  componentDidMount() {
-    const data = localStorage.getItem("saveEmail");
-    fetch("https://localhost:44332/api/User/" + data)
-      .then(response => response.json())
-      .then(resData => {
-        JSON.stringify(resData);
-        this.setState({ userInfo: resData });
 
-      });
+    // this.getUser();
+  }
+
+  getUser() {
+    //   fetch("https://localhost:44332/api/User/" + userData.email)
+    //     .then(response => response.json())
+    //     .then(resData => {
+    //       console.log('HIT');
+    //       JSON.stringify(resData);
+    //       this.setState({ userInfo: resData });
+    //     });
   }
 
   render() {
+    console.log('FROM PROFILE', this.state.userInfo.id);
 
     return (
       <div>
@@ -39,7 +42,7 @@ class Profile extends Component {
             {/* userID: {this.state.userInfo.id} */}
           </div>
         </section>
-        <AddFile userId={this.state.userInfo.id} />
+        <AddFile />
       </div>
     );
   }

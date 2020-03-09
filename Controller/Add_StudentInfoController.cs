@@ -40,7 +40,7 @@ namespace ProjectInfo.Controller
             _context.Add_StudentInfo.Add(add_StudentInfo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAdd_StudentInfo", new { id = add_StudentInfo.ID }, add_StudentInfo);
+            return add_StudentInfo;
         }
 
         // DELETE: api/Add_StudentInfo/5
@@ -65,10 +65,10 @@ namespace ProjectInfo.Controller
         }
 
         [HttpGet("{userId}")]
-        public ActionResult<Add_StudentInfo> GetByUserId(int userId)
-        {
-            var userValue = _context.Add_StudentInfo.First(e => e.User.Id == userId);
-            return userValue;
+        public ActionResult<List<Add_StudentInfo>> GetByUserId(int userId)
+        {  
+            var userValue = _context.Add_StudentInfo.Where(e => e.UserId == userId);
+            return userValue.ToList();         
         }
     }
 }
