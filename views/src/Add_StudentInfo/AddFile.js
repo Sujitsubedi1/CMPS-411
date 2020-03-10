@@ -11,7 +11,6 @@ class AddFile extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             modal: false,
             Semester:'',
@@ -19,12 +18,13 @@ class AddFile extends Component {
               ClassInfoID: '',
   
             events: [
-                this.componentDidMount
+                // this.componentDidMount
             ],
             g_Name: "",
             p_Name: "",
             t_used: "",
             g_Repo: "",
+            events: [],
             t_members: "",
             classinfos:"",
          
@@ -32,18 +32,20 @@ class AddFile extends Component {
       
         }
         this.handlesemester = this.handlesemester.bind(this);
-        this.handleyear = this.handleyear.bind(this);
+                this.handleyear = this.handleyear.bind(this);
         this.handleclassID= this.handleclassID.bind(this);
+        var userData = JSON.parse(sessionStorage.getItem("userData"));
+        this.getUserEvents(userData.id);
     
     }
     componentDidMount() {
         axios.get('https://localhost:44332/api/Add_StudentInfo')
 
-            .then(response => {
-                // console.log(response)
-                this.setState({ events: response.data })
-            })
-            .catch(Error)
+    getUserEvents(id) {
+        fetch("https://localhost:44332/api/Add_StudentInfo/" + id)
+            .then(response => response.json())
+            .then(resData => {
+                JSON.stringify(resData);
 
             axios.get('https://localhost:44332/api/ClassInfoes')
             .then(response => {
@@ -54,10 +56,8 @@ class AddFile extends Component {
             .catch(Error)
     }
 
-    addEvent = () => {
-        var newArray = [...this.state.events];
-        newArray.push({
-            id: newArray.length ? newArray[newArray.length - 1].id + 1 : 1,
+    addEvent(userId) {
+        let FormData = {
             g_Name: this.state.g_Name,
             p_Name: this.state.p_Name,
             t_used: this.state.t_used,
@@ -66,16 +66,18 @@ class AddFile extends Component {
             description: this.state.description,
             Semester: this.state.Semester,
             Year: this.state.Year,
-            ClassInfoID: this.state.ClassInfoID
+            UserId: userId
+           ClassInfoID: this.state.ClassInfoID
+        };
 
-        });
-        this.setState({ events: newArray });
-        this.setState({
-            GName: '',
-            p_Name: '',
-            Tused: '',
-            g_Repo: '',
-            t_members: '',
+        fetch("https://localhost:44332/api/Add_StudentInfo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(FormData)
+        })
+            .then(response => response.json())
             description: '',
   
 
@@ -87,11 +89,12 @@ class AddFile extends Component {
         axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
             .then(response => {
                 // console.log(response)
+                this.setState({ modal: true })
             })
             .catch(error => {
-                console.log(error)
-            })
-
+                console.error("Error:", error);
+            });
+    }
 
     };
 
@@ -99,6 +102,9 @@ class AddFile extends Component {
         window.location.reload();
     }
 
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
 
     handleInputChange = inputName => value => {
@@ -159,43 +165,27 @@ class AddFile extends Component {
     };
 
     render() {
-      
-
+        const userId = this.props.userId;
         // console.log(this.props.userId);
 
+        const { gName, pNames, tused, tmembers, gRepo, description } = this.state;
         return (
-
-
             <React.Fragment>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol md="9" className="mb-r">
                             <h2 className="text-uppercase my-3">Today:</h2>
                             <div id="events">
-                                {this.state.events.map(event => (
-                                    <Event
-                                        key={event.id}
-                                        id={event.id}
-                                        g_Name={event.g_Name}
-                                        p_Name={event.p_Name}
-                                        t_used={event.t_used}
-                                        g_Repo={event.g_Repo}
-                                        t_members={event.t_members}
-                                        description={event.description}
-                                    />
-                                ))}
+                                <Event events={this.state.events} />
                             </div>
                             <MDBRow className="mb-4">
                                 <MDBCol xl="3" md="6" className="mx-auto text-center">
-
                                     <MDBBtn color="info" rounded onClick={this.toggleModal}>
                                         Add Info
                                 </MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </MDBCol>
-
-
                     </MDBRow>
                 </MDBContainer>
                 <MDBModal isOpen={this.state.modal} toggle={this.toggleModal}>
@@ -215,7 +205,8 @@ class AddFile extends Component {
                                 hint="Team Name"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("GName")}
+                                value={gName}
+                                // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
                                 name="name"
@@ -224,7 +215,8 @@ class AddFile extends Component {
                                 hint="Project Name"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("PNames")}
+                                value={pNames}
+                                // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
                                 name="Team Members"
@@ -233,7 +225,8 @@ class AddFile extends Component {
                                 hint="Team Members"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Tmembers")}
+                                value={tmembers}
+                                // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
                                 name="Technologies Used"
@@ -242,7 +235,8 @@ class AddFile extends Component {
                                 hint="Technologies Used"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("Tused")}
+                                value={tused}
+                                // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
                                 name="Github Repository"
@@ -250,7 +244,8 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("GRepo")}
+                                value={gRepo}
+                                // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
                                 name="description"
@@ -258,6 +253,8 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
+                                value={description}
+                                // onChange={this.dataChange.bind(this)}
                                 getValue={this.handleInputChange("description")}
                             />
 
@@ -302,7 +299,7 @@ class AddFile extends Component {
                             color="info"
                             onClick={() => {
                                 this.toggleModal();
-                                this.addEvent();
+                                this.addEvent(userId);
                                 this.refreshPage();
                             }}
                         >
@@ -311,62 +308,56 @@ class AddFile extends Component {
                     </MDBModalFooter>
                 </MDBModal>
 
-
-            </React.Fragment>
-
-
+            </React.Fragment >
         );
 
     }
 }
 
 class Event extends Component {
-
-
     render() {
+        console.log(this.props.events);
+
         return (
             <React.Fragment>
                 <div className="media mt-1">
                     <div className="media-body mb-3 mb-lg-3">
 
-                        <React.Fragment>
-                            <div className="media mt-1">
-                                <h3 className="h3-responsive font-weight-bold mr-3">
-                                    {this.props.g_Name}
-                                </h3>
+                        {this.props.events.map((event, key) => {
+                            return (
+                                <React.Fragment key={event.id}>
+                                    <div className="media mt-1">
+                                        <h3 className="h3-responsive font-weight-bold mr-3">
+                                            {event.g_Name}
+                                        </h3>
 
-                                <div className="media-body mb-3 mb-lg-3">
+                                        <div className="media-body mb-3 mb-lg-3">
+                                            <p className="font-smaller mb-0" >
 
-                                    <p className="font-smaller mb-0" >
+                                                <MDBIcon icon="location-arrow" /> {event.pNames}
+                                            </p>
+                                            <p className="font-smaller mb-0" >
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.p_Name}
-                                    </p>
-                                    <p className="font-smaller mb-0" >
+                                                <MDBIcon icon="location-arrow" /> {event.tmembers}
+                                            </p>
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.t_members}
-                                    </p>
+                                            <p className="font-smaller mb-0">
+                                                <MDBIcon icon="location-arrow" />{event.tused}
+                                            </p>
 
-                                    <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.t_used}
-                                    </p>
-
-                                    <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.g_Repo}
-                                    </p>
-                                    <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
-                                        {this.props.description}
-                                    </p>
-                                </div>
-                            </div>
-                        </React.Fragment>
-
-
-
+                                            <p className="font-smaller mb-0">
+                                                <MDBIcon icon="location-arrow" />{event.gRepo}
+                                            </p>
+                                            <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
+                                                {event.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </React.Fragment>)
+                        })}
                     </div>
                 </div>
-
             </React.Fragment>
-
         );
 
     }
