@@ -8,14 +8,14 @@ namespace ProjectInfo.Model
 {
     public class User
     {
-            [Key]
-            public int Id { get; set; }
-            public string Email { get; set; }
-            public string Name { get; set; }
-            public string Token { get; set; }
-            public string ImageUrl { get; set; }
-            public DateTime TokenExpiresIn { get; set; }
-            public ICollection<Add_StudentInfo> add_StudentInfos { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string Token { get; set; }
+        public string ImageUrl { get; set; }
+        public DateTime TokenExpiresIn { get; set; }
+        //public ICollection<Add_StudentInfo> add_StudentInfos { get; set; }
 
     }
 }

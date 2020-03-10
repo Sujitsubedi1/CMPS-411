@@ -3,7 +3,7 @@ import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import axios from  'axios';
 import { ControlLabel } from 'react-bootstrap';
-import AdminHome from './AdminHome';
+
 
 
 export default class Studentsdata extends Component {
@@ -21,31 +21,32 @@ export default class Studentsdata extends Component {
     }
 
     componentDidMount(){
- 
-        axios.get('https://localhost:44332/api/ProjectInfoes')
+
+        axios.get('https://localhost:44332/api/Add_StudentInfo')
         .then(res => {
      this.setState({
        ProjectData:res.data
      })
 
-  
-     this.maparray();
-       
+     console.log(this.state.ProjectData)
+
+    this.maparray();
+
         })
-       
-          
+
+
     }
 
       maparray(){
-        
+
         {this.state.ProjectData.map( data =>{
           const {className} = data;
-      
+
           if(className == this.props.ids){
              this.state.newdata.push(data);
               }
-              
-            
+
+
           })
 
           }
@@ -61,23 +62,26 @@ export default class Studentsdata extends Component {
      [
        {
       Header: 'Project Name',
-      accessor: 'projectName'
+      accessor: 'pNames'                            
+     
     },{
       Header: 'Technology Used',
-      accessor: 'technologyused'
+      accessor: 'tused'
     },
     {
         Header: 'Github Repo',
-        accessor: 'githubRepo'
+        accessor: 'gRepo'
       },
       {
         Header: ' Members Name',
-        accessor: 'memberNames'
+        accessor: 'tmembers'
       },
       {
       Header:'Description',
       accessor: 'description'
       },
+ 
+      
    
 ]
 

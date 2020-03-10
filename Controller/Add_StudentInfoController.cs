@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectInfo.Data_Context;
+using ProjectInfo.DTOs;
 using ProjectInfo.Model;
 
 namespace ProjectInfo.Controller
@@ -15,33 +17,40 @@ namespace ProjectInfo.Controller
     public class Add_StudentInfoController : ControllerBase
     {
         private readonly Datacontext _context;
+        private readonly IMapper _mapper;
 
-        public Add_StudentInfoController(Datacontext context)
+        public Add_StudentInfoController(Datacontext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Add_StudentInfo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Add_StudentInfo>>> GetAdd_StudentInfo()
+        public async Task<ActionResult<IEnumerable<Add_StudentInfoDTO>>> GetAdd_StudentInfo()
         {
-            return await _context.Add_StudentInfo.ToListAsync();
+      
+            var config = _context.Set<Add_StudentInfo>();
+            var viewdata = _mapper.ProjectTo<Add_StudentInfoDTO>(config);
+            var Students = await viewdata.ToArrayAsync();
+            return Students;
+
         }
 
-        // GET: api/Add_StudentInfo/5
-     
 
-        // POST: api/Add_StudentInfo
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Add_StudentInfo>> PostAdd_StudentInfo(Add_StudentInfo add_StudentInfo)
         {
             _context.Add_StudentInfo.Add(add_StudentInfo);
-            await _context.SaveChangesAsync();
+
+            _context.SaveChangesAsync();
+
 
             return add_StudentInfo;
         }
+    
+
+    
 
         // DELETE: api/Add_StudentInfo/5
         [HttpDelete("{id}")]
