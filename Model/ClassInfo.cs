@@ -15,9 +15,9 @@ namespace ProjectInfo.Model
 
         public string Year { get; set; }
 
-       // public ICollection<AdminData> Student { get; set; }
+        // public ICollection<AdminData> Student { get; set; }
 
-        
+
 
     }
 }
