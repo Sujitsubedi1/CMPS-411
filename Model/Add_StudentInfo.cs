@@ -16,7 +16,7 @@ namespace ProjectInfo.Model
         public string GName { get; set; }
         public string description { get; set; }
 
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public ClassInfo ClassInfo { get; set; }

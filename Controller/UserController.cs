@@ -45,8 +45,8 @@ namespace ProjectInfo.NewFolder
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            var getUser =_userService.GetUser(id);
-       
+            var getUser = _userService.GetUser(id);
+
             return getUser;
         }
         [HttpGet]
@@ -66,4 +66,4 @@ namespace ProjectInfo.NewFolder
         }
 
     }
-    }
+}

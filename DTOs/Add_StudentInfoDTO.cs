@@ -5,21 +5,23 @@ using System.Threading.Tasks;
 
 namespace ProjectInfo.DTOs
 {
-    public class Project_InfoDTO
+    public class Add_StudentInfoDTO
     {
         public int ID { get; set; }
-        public string ProjectName { get; set; }
 
-        public string Technologyused { get; set; }
-        public string GithubRepo { get; set; }
-        public string MemberNames { get; set; }
+        public string PNames { get; set; }
 
-        public string Description { get; set; }
+        public string Tused { get; set; }
+        public string GRepo { get; set; }
+        public string Tmembers { get; set; }
+        public string GName { get; set; }
+        public string description { get; set; }
 
         public string ClassName { get; set; }
         public string Semester { get; set; }
         public string Year { get; set; }
 
         public string ClassInfoID { get; set; }
+        public string UserId { get; set; }
     }
 }

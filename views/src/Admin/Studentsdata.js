@@ -3,7 +3,7 @@ import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import axios from  'axios';
 import { ControlLabel } from 'react-bootstrap';
-import AdminHome from './AdminHome';
+
 
 
 export default class Studentsdata extends Component {
@@ -30,7 +30,7 @@ export default class Studentsdata extends Component {
 
      console.log(this.state.ProjectData)
 
-    //  this.maparray();
+    this.maparray();
 
         })
 
@@ -54,69 +54,64 @@ export default class Studentsdata extends Component {
               mapped:true
           })
         }
-
-  render() {
   
+  render() {
+       
+    
     const columns =
      [
        {
       Header: 'Project Name',
-      accessor: 'p_Name'
+      accessor: 'pNames'                            
+     
     },{
       Header: 'Technology Used',
-      accessor: 't_used'
+      accessor: 'tused'
     },
     {
         Header: 'Github Repo',
-        accessor: 'g_Repo'
+        accessor: 'gRepo'
       },
       {
         Header: ' Members Name',
-        accessor: 't_members'
+        accessor: 'tmembers'
       },
       {
-      Header:'Team Name ',
-      accessor: 'g_Name'
+      Header:'Description',
+      accessor: 'description'
       },
-      {
-        Header:'Description ',
-        accessor: 'description'
-        },
-        {
-            Header:'Class Name ',
-            accessor: 'className'
-            }, 
-            {
-                Header:'semester ',
-                accessor: 'semester'
-                }
+ 
+      
+   
 ]
 
-
+  
 
     return (
-
+        
           <div>
-{/* 
-             {this.state.mapped == true ? ( */}
-
+        
+             {this.state.mapped == true ? (
+                 
                                <ReactTable
-                            data={this.state.ProjectData}
+                            data={this.state.newdata}
                             columns={columns}
                                 showPagination={false}
 
-                                  defaultPageSize={10}
+                                  defaultPageSize={this.state.newdata.length}
 
                                               /> 
-
-              {/* ):(
+                                       
+              ):(
                   <div></div>
               )} 
- */}
 
-
+         
+             
           </div>      
     )
 
   }
 }
+
+

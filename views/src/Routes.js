@@ -4,7 +4,6 @@ import Profile from "./Profile/Profile";
 import history from "./history";
 import AdminHome from "./Admin/AdminHome";
 import Viewclass from "./Admin/Viewclass";
-import ViewStudent from "./Admin/ViewStudents";
 import AddFile from "./Add_StudentInfo/AddFile";
 import Studentsdata from "./Admin/Studentsdata";
 
@@ -17,7 +16,6 @@ export default () => (
       <Route path="/" exact component={home} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/AddFile" component={AddFile} />
-      <Route path="/ViewStudent" component={ViewStudent} />
       <Route path="/Viewclass" component={Viewclass} />
       <Route path="/AdminHome" component={AdminHome} />
       <Route path ="/Studentsdata" component ={Studentsdata}/>

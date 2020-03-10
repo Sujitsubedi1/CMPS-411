@@ -20,14 +20,14 @@ class AddFile extends Component {
             events: [
                 // this.componentDidMount
             ],
-            g_Name: "",
-            p_Name: "",
-            t_used: "",
-            g_Repo: "",
+            gName: "",
+            pNames: "",
+            tused: "",
+            gRepo: "",
             events: [],
-            t_members: "",
+            tmembers: "",
             classinfos:"",
-         
+            UID:''
            
       
         }
@@ -35,17 +35,13 @@ class AddFile extends Component {
                 this.handleyear = this.handleyear.bind(this);
         this.handleclassID= this.handleclassID.bind(this);
         var userData = JSON.parse(sessionStorage.getItem("userData"));
+      
         this.getUserEvents(userData.id);
+       
     
     }
     componentDidMount() {
-        axios.get('https://localhost:44332/api/Add_StudentInfo')
-
-    getUserEvents(id) {
-        fetch("https://localhost:44332/api/Add_StudentInfo/" + id)
-            .then(response => response.json())
-            .then(resData => {
-                JSON.stringify(resData);
+    
 
             axios.get('https://localhost:44332/api/ClassInfoes')
             .then(response => {
@@ -54,22 +50,36 @@ class AddFile extends Component {
                 console.log(this.state.classinfos)
             })
             .catch(Error)
-    }
+        }
+     
+
+        getUserEvents(id) {
+            
+            fetch("https://localhost:44332/api/Add_StudentInfo/" + id)
+                .then(response => response.json())
+                .then(resData => {
+                    JSON.stringify(resData);
+                    this.setState({ events: resData, UID: id });
+                });
+        }
+    
 
     addEvent(userId) {
+        console.log("pROGRESS 1" + userId)
+        this.getclassInfoID()
         let FormData = {
-            g_Name: this.state.g_Name,
-            p_Name: this.state.p_Name,
-            t_used: this.state.t_used,
-            g_Repo: this.state.g_Repo,
-            t_members: this.state.t_members,
+            gName: this.state.gName,
+            pNames: this.state.pNames,
+            tused: this.state.tused,
+            gRepo: this.state.gRepo,
+            tmembers: this.state.tmembers,
             description: this.state.description,
             Semester: this.state.Semester,
             Year: this.state.Year,
-            UserId: userId
+            UserId: userId,
            ClassInfoID: this.state.ClassInfoID
         };
-
+            
         fetch("https://localhost:44332/api/Add_StudentInfo", {
             method: "POST",
             headers: {
@@ -78,25 +88,16 @@ class AddFile extends Component {
             body: JSON.stringify(FormData)
         })
             .then(response => response.json())
-            description: '',
-  
-
-        });
-          
-            console.log(this.state.ClassInfoID)
-        this.getclassInfoID();
-        console.log(this.state)
-        axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
             .then(response => {
-                // console.log(response)
+                console.log("Success:", response);
                 this.setState({ modal: true })
             })
             .catch(error => {
+
                 console.error("Error:", error);
             });
     }
-
-    };
+           
 
     refreshPage() {
         window.location.reload();
@@ -165,9 +166,8 @@ class AddFile extends Component {
     };
 
     render() {
-        const userId = this.props.userId;
-        // console.log(this.props.userId);
-
+        const userId = this.state.UID;
+        
         const { gName, pNames, tused, tmembers, gRepo, description } = this.state;
         return (
             <React.Fragment>
@@ -207,6 +207,7 @@ class AddFile extends Component {
                                 type="text"
                                 value={gName}
                                 // onChange={this.dataChange.bind(this)}
+                                getValue={this.handleInputChange("gName")}
                             />
                             <MDBInput
                                 name="name"
@@ -216,7 +217,8 @@ class AddFile extends Component {
                                 group
                                 type="text"
                                 value={pNames}
-                                // onChange={this.dataChange.bind(this)}
+                                getValue={this.handleInputChange("pNames")}
+                            
                             />
                             <MDBInput
                                 name="Team Members"
@@ -226,7 +228,8 @@ class AddFile extends Component {
                                 group
                                 type="text"
                                 value={tmembers}
-                                // onChange={this.dataChange.bind(this)}
+                                getValue={this.handleInputChange("tmembers")}
+                                
                             />
                             <MDBInput
                                 name="Technologies Used"
@@ -236,7 +239,7 @@ class AddFile extends Component {
                                 group
                                 type="text"
                                 value={tused}
-                                // onChange={this.dataChange.bind(this)}
+                                getValue={this.handleInputChange("tused")}
                             />
                             <MDBInput
                                 name="Github Repository"
@@ -245,6 +248,7 @@ class AddFile extends Component {
                                 group
                                 type="text"
                                 value={gRepo}
+                                getValue={this.handleInputChange("gRepo")}
                                 // onChange={this.dataChange.bind(this)}
                             />
                             <MDBInput
@@ -328,7 +332,7 @@ class Event extends Component {
                                 <React.Fragment key={event.id}>
                                     <div className="media mt-1">
                                         <h3 className="h3-responsive font-weight-bold mr-3">
-                                            {event.g_Name}
+                                            {event.gName}
                                         </h3>
 
                                         <div className="media-body mb-3 mb-lg-3">

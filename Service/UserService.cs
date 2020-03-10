@@ -35,15 +35,15 @@ namespace ProjectInfo.Service
 
         public bool AddUser(User user)
         {
-        //    try
-          //  {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                return true;
-           // }
+            //    try
+            //  {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return true;
+            // }
             //catch (Exception e)
             //{
-              //  return false;
+            //  return false;
             //}
         }
 

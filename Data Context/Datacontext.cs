@@ -12,18 +12,18 @@ namespace ProjectInfo.Data_Context
 
 
 
-        // }
+        // // }
         public DbSet<User> Users { get; set; }
 
 
-       public DbSet<AdminData> AdminData {get;set;}
+
 
         public DbSet<ClassInfo> ClassInfos { get; set; }
-        public DbSet<Project_Info> ProjectInfo { get; set; }
+        //public DbSet<Project_Info> ProjectInfo { get; set; }
 
         public DbSet<Add_StudentInfo> Add_StudentInfo { get; set; }
 
     }
 
 
-    }
+}
