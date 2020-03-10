@@ -14,25 +14,42 @@ class AddFile extends Component {
 
         this.state = {
             modal: false,
+            Semester:'',
+            Year:'',
+              ClassInfoID: '',
+  
             events: [
                 this.componentDidMount
             ],
-            gName: "",
-            pNames: "",
-            tused: "",
-            gRepo: "",
-            tmembers: ""
-
-
-        };
-
+            g_Name: "",
+            p_Name: "",
+            t_used: "",
+            g_Repo: "",
+            t_members: "",
+            classinfos:"",
+         
+           
+      
+        }
+        this.handlesemester = this.handlesemester.bind(this);
+        this.handleyear = this.handleyear.bind(this);
+        this.handleclassID= this.handleclassID.bind(this);
+    
     }
     componentDidMount() {
         axios.get('https://localhost:44332/api/Add_StudentInfo')
 
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({ events: response.data })
+            })
+            .catch(Error)
+
+            axios.get('https://localhost:44332/api/ClassInfoes')
+            .then(response => {
+                // console.log(response)
+                this.setState({ classinfos: response.data })
+                console.log(this.state.classinfos)
             })
             .catch(Error)
     }
@@ -41,27 +58,35 @@ class AddFile extends Component {
         var newArray = [...this.state.events];
         newArray.push({
             id: newArray.length ? newArray[newArray.length - 1].id + 1 : 1,
-            gName: this.state.gName,
-            pNames: this.state.pNames,
-            tused: this.state.tused,
-            gRepo: this.state.gRepo,
-            tmembers: this.state.tmembers,
+            g_Name: this.state.g_Name,
+            p_Name: this.state.p_Name,
+            t_used: this.state.t_used,
+            g_Repo: this.state.g_Repo,
+            t_members: this.state.t_members,
             description: this.state.description,
+            Semester: this.state.Semester,
+            Year: this.state.Year,
+            ClassInfoID: this.state.ClassInfoID
 
         });
         this.setState({ events: newArray });
         this.setState({
-            gName: '',
-            pNames: '',
-            tused: '',
-            gRepo: '',
-            tmembers: '',
+            GName: '',
+            p_Name: '',
+            Tused: '',
+            g_Repo: '',
+            t_members: '',
             description: '',
+  
 
         });
+          
+            console.log(this.state.ClassInfoID)
+        this.getclassInfoID();
+        console.log(this.state)
         axios.post('https://localhost:44332/api/Add_StudentInfo', this.state)
             .then(response => {
-                console.log(response)
+                // console.log(response)
             })
             .catch(error => {
                 console.log(error)
@@ -85,6 +110,48 @@ class AddFile extends Component {
 
 
 
+    
+    getclassInfoID(){
+        {this.state.classinfos.map(classdata=>{
+                const {id,classID,semester,year}= classdata;
+                        console.log(semester);
+                        console.log(this.state.Semester)
+                        if(this.state.ClassInfoID== classID){
+                          
+                            this.state.ClassInfoID=id;
+                        }
+               
+                
+        })}
+      
+
+
+    }
+
+    handlesemester(e){
+
+        this.setState({
+            Semester:  e.target.value
+        })
+  
+
+    }
+
+    handleyear(e){
+
+        this.setState({
+            Year:  e.target.value
+        })
+  
+
+    }
+
+    handleclassID(e){
+        this.setState({
+            ClassInfoID:e.target.value
+        })
+    }
+
     toggleModal = () => {
         this.setState({
             modal: !this.state.modal
@@ -92,8 +159,9 @@ class AddFile extends Component {
     };
 
     render() {
-        const { Dummy } = this.state;
-        console.log(this.props.userId);
+      
+
+        // console.log(this.props.userId);
 
         return (
 
@@ -108,11 +176,11 @@ class AddFile extends Component {
                                     <Event
                                         key={event.id}
                                         id={event.id}
-                                        gName={event.gName}
-                                        pNames={event.pNames}
-                                        tused={event.tused}
-                                        gRepo={event.gRepo}
-                                        tmembers={event.tmembers}
+                                        g_Name={event.g_Name}
+                                        p_Name={event.p_Name}
+                                        t_used={event.t_used}
+                                        g_Repo={event.g_Repo}
+                                        t_members={event.t_members}
                                         description={event.description}
                                     />
                                 ))}
@@ -147,7 +215,7 @@ class AddFile extends Component {
                                 hint="Team Name"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("gName")}
+                                getValue={this.handleInputChange("GName")}
                             />
                             <MDBInput
                                 name="name"
@@ -156,7 +224,7 @@ class AddFile extends Component {
                                 hint="Project Name"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("pNames")}
+                                getValue={this.handleInputChange("PNames")}
                             />
                             <MDBInput
                                 name="Team Members"
@@ -165,7 +233,7 @@ class AddFile extends Component {
                                 hint="Team Members"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("tmembers")}
+                                getValue={this.handleInputChange("Tmembers")}
                             />
                             <MDBInput
                                 name="Technologies Used"
@@ -174,7 +242,7 @@ class AddFile extends Component {
                                 hint="Technologies Used"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("tused")}
+                                getValue={this.handleInputChange("Tused")}
                             />
                             <MDBInput
                                 name="Github Repository"
@@ -182,7 +250,7 @@ class AddFile extends Component {
                                 icon="map"
                                 group
                                 type="text"
-                                getValue={this.handleInputChange("gRepo")}
+                                getValue={this.handleInputChange("GRepo")}
                             />
                             <MDBInput
                                 name="description"
@@ -193,7 +261,40 @@ class AddFile extends Component {
                                 getValue={this.handleInputChange("description")}
                             />
 
+                            <label>
+                                         Class 
+                            <select value={this.state.value} onChange={this.handleclassID}>
+                            <option value="CMPS">CMPS</option>
+                                <option value="285">285</option>
+                                <option value="411">411</option>
 
+                            </select>
+                            </label>
+                          
+                                                <label>
+                                         Semester
+                            <select value={this.state.value} onChange={this.handlesemester}>
+                            <option value="Semester">Semester</option>
+                                <option value="Fall">Fall</option>
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+
+                            </select>
+                            </label>
+
+                                                <label>
+                                         Year
+                            <select value={this.state.value} onChange={this.handleyear}>
+                            <option value="2024">2024</option>
+                                <option value="2021">2021   </option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+
+                            </select>
+                            </label>
+                                                                                                
+                                               
+                          
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter className="justify-content-center">
@@ -231,26 +332,26 @@ class Event extends Component {
                         <React.Fragment>
                             <div className="media mt-1">
                                 <h3 className="h3-responsive font-weight-bold mr-3">
-                                    {this.props.gName}
+                                    {this.props.g_Name}
                                 </h3>
 
                                 <div className="media-body mb-3 mb-lg-3">
 
                                     <p className="font-smaller mb-0" >
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.pNames}
+                                        <MDBIcon icon="location-arrow" /> {this.props.p_Name}
                                     </p>
                                     <p className="font-smaller mb-0" >
 
-                                        <MDBIcon icon="location-arrow" /> {this.props.tmembers}
+                                        <MDBIcon icon="location-arrow" /> {this.props.t_members}
                                     </p>
 
                                     <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.tused}
+                                        <MDBIcon icon="location-arrow" />{this.props.t_used}
                                     </p>
 
                                     <p className="font-smaller mb-0">
-                                        <MDBIcon icon="location-arrow" />{this.props.gRepo}
+                                        <MDBIcon icon="location-arrow" />{this.props.g_Repo}
                                     </p>
                                     <p className="p-2 mb-4  blue-grey lighten-5 blue-grey lighten-5">
                                         {this.props.description}

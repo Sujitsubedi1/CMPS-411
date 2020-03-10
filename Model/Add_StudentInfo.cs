@@ -9,15 +9,16 @@ namespace ProjectInfo.Model
     {
         public int ID { get; set; }
         public string PNames { get; set; }
-        public string className { get; set; }
-        public string year { get; set; }
 
         public string Tused { get; set; }
         public string GRepo { get; set; }
         public string Tmembers { get; set; }
         public string GName { get; set; }
-        public string  description{ get; set; }
+        public string description { get; set; }
         public User User { get; set; }
+
+        public ClassInfo ClassInfo { get; set; }
+        public int ClassInfoID { get; set; }
 
     }
 }
