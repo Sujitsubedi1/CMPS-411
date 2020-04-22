@@ -26,6 +26,9 @@ namespace ProjectInfo.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClassInfoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GName")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,40 +44,24 @@ namespace ProjectInfo.Migrations
                     b.Property<string>("Tused")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ClassInfoId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Add_StudentInfo");
-                });
-
-            modelBuilder.Entity("ProjectInfo.Model.AdminData", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("Classinfosid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Framework")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Names")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Classinfosid");
-
-                    b.ToTable("AdminData");
                 });
 
             modelBuilder.Entity("ProjectInfo.Model.ClassInfo", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -88,33 +75,9 @@ namespace ProjectInfo.Migrations
                     b.Property<string>("Year")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("ClassInfos");
-                });
-
-            modelBuilder.Entity("ProjectInfo.Model.Project_Info", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("G_Repo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("P_Names")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("T_used")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("members")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ProjectInfo");
                 });
 
             modelBuilder.Entity("ProjectInfo.Model.User", b =>
@@ -144,11 +107,19 @@ namespace ProjectInfo.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProjectInfo.Model.AdminData", b =>
+            modelBuilder.Entity("ProjectInfo.Model.Add_StudentInfo", b =>
                 {
-                    b.HasOne("ProjectInfo.Model.ClassInfo", "Classinfos")
+                    b.HasOne("ProjectInfo.Model.ClassInfo", "ClassInfo")
+                        .WithMany("Student")
+                        .HasForeignKey("ClassInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectInfo.Model.User", "User")
                         .WithMany()
-                        .HasForeignKey("Classinfosid");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

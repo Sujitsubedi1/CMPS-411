@@ -3,7 +3,8 @@ import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import axios from  'axios';
 import { ControlLabel } from 'react-bootstrap';
-
+import ViewSearchResults from "./ViewSearchResults"
+import ReactSearchBox from 'react-search-box'
 
 
 export default class Studentsdata extends Component {
@@ -14,8 +15,11 @@ export default class Studentsdata extends Component {
             this.state ={
                 ProjectData : [],
           newdata:[],
-          mapped:false,
-
+                mapped: false,
+                Students: [],
+                inputValue: '',
+                newSearchedData: [],
+                queryValue: '',
 
         }
     }
@@ -28,21 +32,41 @@ export default class Studentsdata extends Component {
        ProjectData:res.data
      })
 
-     console.log(this.state.ProjectData)
+            console.log(this.state.ProjectData)
 
-    this.maparray();
+            this.maparray(this.state.queryValue);
 
         })
 
 
     }
 
-      maparray(){
+    handleInputChange(query) {
+       
+            this.state.ProjectData.map(data => {
+                const { tmembers } = data;
 
+                if (tmembers.includes(query)) {
+                    this.state.newSearchedData.push(data);
+                }  
+            })
+       
+        
+
+        
+
+
+    }
+    resetnewdata() {
+        this.state.newdata = []
+    }
+
+    maparray(record) {
+        this.state.newdata = []
         {this.state.ProjectData.map( data =>{
-          const {className} = data;
+            const { className, semester, year, tmembers } = data;
 
-          if(className == this.props.ids){
+            if (className == this.props.ids && semester == this.props.semesters && year == this.props.years && tmembers.includes(record)) {
              this.state.newdata.push(data);
               }
 
@@ -55,8 +79,7 @@ export default class Studentsdata extends Component {
           })
         }
   
-  render() {
-       
+    render() {
     
     const columns =
      [
@@ -73,24 +96,29 @@ export default class Studentsdata extends Component {
         accessor: 'gRepo'
       },
       {
-        Header: ' Members Name',
+        Header: 'Members Name',
         accessor: 'tmembers'
       },
       {
       Header:'Description',
       accessor: 'description'
       },
- 
-      
-   
+  
 ]
 
   
+            //value={props.inputValue} onChange={props.FilterOnChange}
 
     return (
-        
-          <div>
-        
+
+        <div>
+            <ReactSearchBox
+                
+                placeholder="Live Search Here"
+                onChange={record => this.maparray(record)}
+                
+            />
+            <br/>
              {this.state.mapped == true ? (
                  
                                <ReactTable
@@ -100,11 +128,12 @@ export default class Studentsdata extends Component {
 
                                   defaultPageSize={this.state.newdata.length}
 
-                                              /> 
+                />
                                        
               ):(
                   <div></div>
-              )} 
+                )}
+            
 
          
              

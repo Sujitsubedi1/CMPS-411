@@ -23,7 +23,7 @@ namespace ProjectInfo
              .ForMember(dest => dest.ClassName, src => src.MapFrom(src => src.ClassInfo.ClassID))
              .ForMember(dest => dest.Semester, src => src.MapFrom(src => src.ClassInfo.Semester))
               .ForMember(dest => dest.Year, src => src.MapFrom(src => src.ClassInfo.Year))
-                .ForMember(dest => dest.ClassInfoID, src => src.MapFrom(src => src.ClassInfo.id))
+                .ForMember(dest => dest.ClassInfoID, src => src.MapFrom(src => src.ClassInfo.Id))
                 .ForMember(dest => dest.UserId, src => src.MapFrom(src => src.User.Id));
 
 

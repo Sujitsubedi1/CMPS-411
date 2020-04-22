@@ -10,38 +10,60 @@ using ProjectInfo.Data_Context;
 namespace ProjectInfo.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20200217032047_AddTa")]
-    partial class AddTa
+    [Migration("20200407213120_add_User_ClassInfo_StudentInfo_Tables")]
+    partial class add_User_ClassInfo_StudentInfo_Tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ProjectInfo.Model.AdminData", b =>
+            modelBuilder.Entity("ProjectInfo.Model.Add_StudentInfo", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Framework")
+                    b.Property<int>("ClassInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Names")
+                    b.Property<string>("GRepo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PNames")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tmembers")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tused")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.ToTable("AdminData");
+                    b.HasIndex("ClassInfoId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Add_StudentInfo");
                 });
 
             modelBuilder.Entity("ProjectInfo.Model.ClassInfo", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -55,24 +77,9 @@ namespace ProjectInfo.Migrations
                     b.Property<string>("Year")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
-
-                    b.ToTable("ClassInfos");
-                });
-
-            modelBuilder.Entity("ProjectInfo.Model.Dummydata", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("DummyData");
+                    b.ToTable("ClassInfos");
                 });
 
             modelBuilder.Entity("ProjectInfo.Model.User", b =>
@@ -83,6 +90,9 @@ namespace ProjectInfo.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -97,6 +107,21 @@ namespace ProjectInfo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ProjectInfo.Model.Add_StudentInfo", b =>
+                {
+                    b.HasOne("ProjectInfo.Model.ClassInfo", "ClassInfo")
+                        .WithMany("Student")
+                        .HasForeignKey("ClassInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectInfo.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

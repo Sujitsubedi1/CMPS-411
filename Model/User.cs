@@ -15,7 +15,5 @@ namespace ProjectInfo.Model
         public string Token { get; set; }
         public string ImageUrl { get; set; }
         public DateTime TokenExpiresIn { get; set; }
-        //public ICollection<Add_StudentInfo> add_StudentInfos { get; set; }
-
     }
 }

@@ -70,7 +70,7 @@ export default class Viewclass extends React.Component{
         }
 
         liststudents(id){
-            axios.get('https://localhost:44332/api/AdminDatas')
+            axios.get('https://localhost:44332/api/ClassInfo')
             .then(res => {
               this.setState({
                 studentsclass:res.data,
@@ -93,7 +93,7 @@ export default class Viewclass extends React.Component{
            
                 event.preventDefault();
 
-                axios.post('https://localhost:44332/api/ClassInfoes', { classID: this.state.classID, Semester: this.state.semester,Year: this.state.year })
+                axios.post('https://localhost:44332/api/ClassInfo', { classID: this.state.classID, Semester: this.state.semester,Year: this.state.year })
                 .then(res => {
                   console.log(res);
                   console.log(res.data);
@@ -101,7 +101,7 @@ export default class Viewclass extends React.Component{
                 }
 
                 componentDidMount() {
-                  axios.get(`https://localhost:44332/api/ClassInfoes`)
+                  axios.get(`https://localhost:44332/api/ClassInfo`)
 
                     .then(res => {
                       console.log(this.state.Dummy)

@@ -48,7 +48,7 @@ namespace ProjectInfo.Controller
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClassInfo(int id, ClassInfo classInfo)
         {
-            if (id != classInfo.id)
+            if (id != classInfo.Id)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace ProjectInfo.Controller
             _context.ClassInfos.Add(classInfo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetClassInfo", new { id = classInfo.id }, classInfo);
+            return CreatedAtAction("GetClassInfo", new { id = classInfo.Id }, classInfo);
         }
 
         // DELETE: api/ClassInfoes/5
@@ -104,7 +104,7 @@ namespace ProjectInfo.Controller
 
         private bool ClassInfoExists(int id)
         {
-            return _context.ClassInfos.Any(e => e.id == id);
+            return _context.ClassInfos.Any(e => e.Id == id);
         }
     }
 }

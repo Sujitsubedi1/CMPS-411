@@ -19,8 +19,8 @@ namespace ProjectInfo.Model
         public int UserId { get; set; }
         public User User { get; set; }
 
+        public int ClassInfoId { get; set; }
         public ClassInfo ClassInfo { get; set; }
-        public int ClassInfoID { get; set; }
 
     }
 }

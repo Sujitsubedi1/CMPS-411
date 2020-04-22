@@ -8,7 +8,7 @@ namespace ProjectInfo.Model
     public class ClassInfo
     {
 
-        public int id { get; set; }
+        public int Id { get; set; }
         public string ClassID { get; set; }
 
         public string Semester { get; set; }
@@ -16,8 +16,6 @@ namespace ProjectInfo.Model
         public string Year { get; set; }
 
        public virtual ICollection<Add_StudentInfo> Student { get; set; }
-
-
 
     }
 }
